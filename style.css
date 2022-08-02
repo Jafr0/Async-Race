@@ -1,0 +1,176 @@
+*{
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+*,*:before,*:after{
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+
+html,body{
+	height: 100%;
+	width: 100%;
+	font-size:  100%;
+	line-height: 1;
+	font-size: 14px;
+	-ms-text-size-adjust: 100%;
+	-moz-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+	background-color: black;
+}
+
+.menu{
+	margin-top: 30px;
+	margin-left: 30px;
+}
+.to-garage{
+	background-color: brown;
+	width: 150px;
+	height: 30px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+.to-win{
+	background-color: brown;
+	width: 150px;
+	height: 30px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.garage{
+	margin-top: 50px;
+	margin-left: 30px;
+
+}
+
+.form{
+
+	margin-bottom: 10px;
+}
+
+.namecar{
+	height: 30px;
+	border-radius: 10px;
+}
+
+.color{
+	
+	
+}
+
+.button{
+	width: 70px;
+	height: 25px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.race{
+	width: 70px;
+	height: 25px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+.reset{
+	width: 70px;
+	height: 25px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+.generator{
+	width: 150px;
+	height: 25px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.garage-catalog{
+	margin-top: 30px;
+	width: 100%;
+}
+
+h1{
+	color: white;
+}
+
+h2{
+	margin-top: 20px;
+	color: white;
+}
+
+
+ul{
+	list-style-type: none;
+}
+
+ul li{
+	margin-top: 20px;
+}
+
+.select{
+	width: 70px;
+	height: 20px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.remove{
+	width: 70px;
+	height: 20px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.car-name{
+	color:white;
+	font-size: 20px;
+}
+
+
+
+.road{
+	display: flex;
+	
+	width:100%;
+}
+
+.panel{
+	width: 80%;
+	display: flex;
+}
+
+.cpanel{
+	margin-top: 20px;
+}
+.start{
+	width: 30px;
+	height: 30px;
+}
+.stop{
+	width: 30px;
+	height: 30px;
+}
+
+svg{
+	margin-top: 10px;
+	margin-left: 10px;
+	width: 100px;
+	height: 50px;
+}
+
+.flag{
+	margin-left: 70%;
+	font-size: 40px;
+	margin-top: 15px;
+	
+}
+
+hr{
+	background-color: white;
+	height: 10px;
+}
