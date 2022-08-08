@@ -1,0 +1,262 @@
+*{
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+*,*:before,*:after{
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+
+html,body{
+	height: 100%;
+	width: 100%;
+	font-size:  100%;
+	line-height: 1;
+	font-size: 14px;
+	-ms-text-size-adjust: 100%;
+	-moz-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+	background-color: black;
+}
+
+.menu{
+	margin-top: 30px;
+	margin-left: 30px;
+}
+.to-garage{
+	background-color: brown;
+	width: 150px;
+	height: 30px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+.to-win{
+	background-color: brown;
+	width: 150px;
+	height: 30px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.garage{
+	margin-top: 50px;
+	margin-left: 30px;
+
+}
+
+.form{
+margin-left: 30px;
+	margin-bottom: 10px;
+}
+.controls{
+	margin-left: 30px;
+}
+
+
+.namecar{
+	height: 30px;
+	border-radius: 10px;
+}
+
+.upnamecar{
+	height: 30px;
+	border-radius: 10px;
+}
+
+.button-up{
+	width: 70px;
+	height: 25px;
+	border-radius: 10px;
+	
+}
+.button{
+	width: 70px;
+	height: 25px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.race{
+	width: 70px;
+	height: 25px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+.reset{
+	width: 70px;
+	height: 25px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+.generator{
+	width: 150px;
+	height: 25px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.garage-catalog{
+	margin-top: 30px;
+	width: 100%;
+}
+
+h1{
+	margin-left: 30px;
+	margin-top: 20px;
+	color: white;
+}
+
+h2{
+	margin-left: 30px;
+	margin-top: 20px;
+	color: white;
+}
+
+
+ul{
+	list-style-type: none;
+}
+
+ul li{
+	margin-top: 20px;
+}
+
+.select{
+	width: 70px;
+	height: 20px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.remove{
+	width: 70px;
+	height: 20px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.car-name{
+	color:white;
+	font-size: 20px;
+}
+
+
+
+.road{
+	display: flex;
+	
+	width:100%;
+}
+
+.controls-all{
+	width: 80%;
+	display: flex;
+}
+
+.control-car{
+	margin-top: 20px;
+}
+.start{
+	width: 30px;
+	height: 30px;
+}
+.stop{
+	width: 30px;
+	height: 30px;
+}
+
+svg{
+	margin-top: 10px;
+	margin-left: 10px;
+	width: 100px;
+	height: 50px;
+}
+
+.flag{
+	margin-left: -10%;
+	font-size: 40px;
+	margin-top: 15px;
+	
+}
+
+hr{
+	background-color: white;
+	height: 10px;
+}
+
+.winners{
+	display:none;
+	position: absolute;
+	margin-top: -6%;
+	width: 100%;
+	z-index: 50;
+	background-color: black;
+	height: 1500px;
+}
+
+.winners h1{
+	text-align: center;
+}
+.winners h2{
+	margin-top: 20px;
+	text-align: center;
+}
+
+.table{
+		margin: 0 auto;
+		margin-top: 30px;
+		color: white;
+}
+
+.mes{
+	display: none;
+	position: absolute;
+	margin-left: 40%;
+	color: white;
+	vertical-align: middle;
+	font-size: 25px;
+	width: 500px;
+	height: 100px;
+	border: 4px solid red;
+	background-color: rgb(173, 58, 58);
+	text-align: center;
+	
+}
+
+
+.pag{
+	margin-top: 50px;
+	margin-left: 50%;
+	padding-bottom: 50px;
+}
+
+.prev{
+	width: 70px;
+	height: 25px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.next{
+	width: 70px;
+	height: 25px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+table, th, td {
+	border: 1px solid;
+ }
+
+ td {
+	text-align: center;
+ }
+
+ th, td {
+	padding: 15px;
+	
+ }
