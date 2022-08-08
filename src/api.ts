@@ -21,11 +21,11 @@ export const getCars = async (
 export const getCar = async (id: number): Promise<{ id: number; color: string; name: string }> =>
     (await fetch(`${garage}/${id}`)).json();
 
-export const createCar = async (body: { color: string; name: string }): Promise<JSON> =>
+export const createCar = async (data: { color: string; name: string }): Promise<JSON> =>
     (
         await fetch(garage, {
             method: 'POST',
-            body: JSON.stringify(body),
+            body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -107,12 +107,12 @@ export const getWinner = async (
     name: string;
 }> => (await fetch(`${winners}/${id}`)).json();
 
-export const getWinnerStatus = async (id: number): Promise<number> => (await fetch(`${winners}/${id}`)).status;
+export const WinnerStatus = async (id: number): Promise<number> => (await fetch(`${winners}/${id}`)).status;
 
 export const deleteWinner = async (id: number): Promise<JSON> =>
     (await fetch(`${winners}/${id}`, { method: 'DELETE' })).json();
 
-export const createWinner = async (body: {
+export const createWinner = async (data: {
     wins: number;
     time: number;
     id: number;
@@ -122,7 +122,7 @@ export const createWinner = async (body: {
     (
         await fetch(winners, {
             method: 'POST',
-            body: JSON.stringify(body),
+            body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -149,7 +149,7 @@ export const updateWinner = async (
         })
     ).json();
 
-export const saveWinner = async ({
+export const returnWinner = async ({
     id,
     time,
     name,
@@ -161,17 +161,18 @@ export const saveWinner = async ({
     color?: string;
 }): Promise<void> => {
     if (id && time && name && color) {
-        const winnerStatus: number = await getWinnerStatus(+id);
+        const winnerStatus: number = await WinnerStatus(+id);
         if (winnerStatus === 404) {
             await createWinner({
-                id,
                 name,
+                id,
                 color,
                 wins: 1,
                 time,
             });
         } else {
             const winner: { wins: number; time: number } = await getWinner(id);
+
             await updateWinner(id, {
                 name,
                 id,

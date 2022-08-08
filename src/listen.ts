@@ -1,4 +1,4 @@
-import { createCar, deleteCar, deleteWinner, getCar, getWinnerStatus, saveWinner, upCar } from './api';
+import { createCar, deleteCar, deleteWinner, getCar, WinnerStatus, returnWinner, upCar } from './api';
 import str from './str';
 import { renderGarage, renderWinners, startDriving, stopDriving, updateGarage, updateWinners, race } from './render';
 import { createRandomCars } from './random';
@@ -23,7 +23,7 @@ export const listen = (): void => {
         if (target.classList.contains('remove')) {
             const del = +target.id.split('-')[2];
             await deleteCar(del);
-            if ((await getWinnerStatus(del)) !== 404) {
+            if ((await WinnerStatus(del)) !== 404) {
                 await deleteWinner(del);
             }
             await updateGarage();
@@ -57,7 +57,7 @@ export const listen = (): void => {
             const targ = event.target as HTMLInputElement;
             targ.disabled = true;
             const winner = await race(startDriving);
-            await saveWinner(winner);
+            await returnWinner(winner);
             const message = <HTMLElement>document.getElementById('mes');
             message.textContent = `${winner.name} Finished FIRST!!! with (${winner.time}sec)`;
             message.style.display = 'block';
