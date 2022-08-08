@@ -152,12 +152,12 @@ ul li{
 	width:100%;
 }
 
-.panel{
+.controls-all{
 	width: 80%;
 	display: flex;
 }
 
-.cpanel{
+.control-car{
 	margin-top: 20px;
 }
 .start{
@@ -177,7 +177,7 @@ svg{
 }
 
 .flag{
-	margin-left: 70%;
+	margin-left: -10%;
 	font-size: 40px;
 	margin-top: 15px;
 	
