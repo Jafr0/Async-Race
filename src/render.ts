@@ -1,5 +1,5 @@
 import str from './str';
-import { getCars } from './api';
+import { getCars, drive, getCar, startEngine, stopEngine, getWinners } from './api';
 
 export const renderColor = (color: string) => `
 <svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="1280.000000pt" height="640.000000pt" viewBox="0 0 1280.000000 640.000000" preserveAspectRatio="xMidYMid meet">
@@ -44,10 +44,10 @@ export const renderCar = ({ id, name, color }: { id: number; name: string; color
  <span class="car-name">${name}</span>
  </div>
  <div class="road">
- <div class="launch-pad">
- <div class="control-panel">
- <button class="icon start-button" id="start-car-${id}">A</button>
- <button class="icon stop-button" id="stop-car-${id}" disabled>B</button>
+ <div class="controls-all">
+ <div class="control-car">
+ <button class="start" id="start-car-${id}">A</button>
+ <button class="stop" id="stop-car-${id}" disabled>B</button>
  </div>
  <div class="car" id="car-${id}">
  ${renderColor(color)}
@@ -63,18 +63,46 @@ export const renderGarage = (): string => `
 <h1>Page #${str.carsPage}</h1>
 <ul class="garage">
 ${str.cars
-		.map(
-			(car: { id: number; name: string; color: string }) => `
-<li>${renderCar(car)}</li>
+    .map(
+        (car: { id: number; name: string; color: string }) => `
+<li>${renderCar(car)}<hr></li>
 `
-		)
-		.join('')}
+    )
+    .join('')}
 </ul>
 `;
 
+export const renderWinners = (): string => `
+ <h1>Winners(${str.winnersCount})</h1>
+ <h2>Page #${str.winnersPage}</h2>
+ <table class="table" cellspacing="0" border="0" cellpadding="10">
+ <thead>
+ <th>Number</th>
+ <th>Car</th>
+ <th>Name</th>
+ <th>Wins</th>
+ <th>Time</th>
+ </thead>
+ <tbody>
+ ${str.winners
+     .map(
+         (winner: { id: number; name: string; color: string; wins: number; time: number }, index: number) => `
+ <tr>
+ <td>${index + 1}</td>
+ <td>${renderColor(winner.color)}</td>
+ <td>${winner.name}</td>
+ <td>${winner.wins}</td>
+ <td>${winner.time}</td>
+ </tr>
+ `
+     )
+     .join('')}
+ </tbody>
+ </table>
+ `;
 
 export const render = async () => {
-	const html = `
+    const html = `
 	<div class="menu">
 		<button class="to-garage" id="to-garage">To garage</button>
 		<button class="to-win" id="to-win">To winners</button>
@@ -96,31 +124,172 @@ export const render = async () => {
 			<button class="reset" id="reset ">Reset</button>
 			<button class="generator" id="generator ">Generate cars</button>
 		</div>
+		</div>
+		<div id="winners" class="winners">
+		${renderWinners()}
+		</div>
+		<div id="mes" class="mes">
 
+</div>
 		<div id="garage">
 			${renderGarage()}
 		</div>
-		<div>
-
+		<div class="pag">
+<button class="prev" id="prev" disabled>Prev</button>
+<button class="next" id="next"  disabled>Next</button>
+</div>
 `;
 
-	const carHTML = document.createElement('div');
-	carHTML.innerHTML = html;
-	document.body.insertAdjacentElement('afterbegin', carHTML);
+    const carHTML = document.createElement('div');
+    carHTML.innerHTML = html;
+    document.body.insertAdjacentElement('afterbegin', carHTML);
 };
 
 export const updateGarage = async (): Promise<void> => {
-	const { items, count } = await getCars(str.carsPage);
-	str.cars = items;
-	str.carsCount = count;
-	if (str.carsPage * 7 < Number(str.carsCount)) {
-		(<HTMLInputElement>document.getElementById('next')).disabled = false;
-	} else {
-		(<HTMLInputElement>document.getElementById('next')).disabled = true;
-	}
-	if (str.carsPage > 1) {
-		(<HTMLInputElement>document.getElementById('prev')).disabled = false;
-	} else {
-		(<HTMLInputElement>document.getElementById('prev')).disabled = true;
-	}
+    const { items, count } = await getCars(str.carsPage);
+    str.cars = items;
+    str.carsCount = count;
+    if (str.carsPage * 7 < Number(str.carsCount)) {
+        (<HTMLInputElement>document.getElementById('next')).disabled = false;
+    } else {
+        (<HTMLInputElement>document.getElementById('next')).disabled = true;
+    }
+    if (str.carsPage > 1) {
+        (<HTMLInputElement>document.getElementById('prev')).disabled = false;
+    } else {
+        (<HTMLInputElement>document.getElementById('prev')).disabled = true;
+    }
+};
+
+export const updateWinners = async (): Promise<void> => {
+    const { items, count } = await getWinners(str.winnersPage);
+    str.winners = items;
+    str.winnersCount = count;
+};
+
+function getCenter(el: HTMLElement): { x: number; y: number } {
+    const { top, left, width, height } = el.getBoundingClientRect();
+    return {
+        x: left + width / 2,
+        y: top + height / 2,
+    };
+}
+
+export function getDistance(el1: HTMLElement, el2: HTMLElement): number {
+    const pos1 = getCenter(el1);
+    const pos2 = getCenter(el2);
+    return Math.hypot(pos1.x - pos2.x, pos1.y - pos2.y);
+}
+
+interface ICarData {
+    name: string;
+    id: number;
+}
+
+export function raceAnimation(car: HTMLElement, distance: number, animationTime: number): ICarData {
+    let start = 0;
+    const state: ICarData = { name: '', id: 1 };
+
+    function step(timetamp: number) {
+        if (!start) start = timetamp;
+        const time = timetamp - start;
+        const passed = Math.round(time * (distance / animationTime));
+
+        car.style.transform = `translateX(${Math.min(passed, distance)}px)`;
+
+        if (passed < distance) {
+            state.id = window.requestAnimationFrame(step);
+        }
+    }
+
+    state.id = window.requestAnimationFrame(step);
+
+    return state;
+}
+
+let animationCar: { name: string; id: number };
+
+export const startDriving: (
+    id: number
+) => Promise<{
+    success: boolean;
+    id: number;
+    time: number;
+}> = async (id: number) => {
+    (<HTMLInputElement>document.getElementById(`start-car-${id}`)).disabled = true;
+    (<HTMLInputElement>document.getElementById(`stop-car-${id}`)).disabled = false;
+
+    const { velocity, distance } = await startEngine(id);
+    const time = Math.round(distance / velocity);
+
+    const car = document.getElementById(`car-${id}`);
+    const flag = document.getElementById(`flag-${id}`);
+    if (car !== null && flag !== null) {
+        const htmlDistance = Math.floor(getDistance(car, flag)) + 70;
+        animationCar = raceAnimation(car, htmlDistance, time);
+    }
+
+    const { success } = await drive(id);
+    if (!success) window.cancelAnimationFrame(animationCar.id);
+
+    return { success, id, time };
+};
+
+export const stopDriving: (id: number) => Promise<void> = async (id: number) => {
+    (<HTMLInputElement>document.getElementById(`stop-car-${id}`)).disabled = true;
+    await stopEngine(id);
+    (<HTMLInputElement>document.getElementById(`start-car-${id}`)).disabled = false;
+
+    const car = document.getElementById(`car-${id}`);
+    if (car !== null) {
+        car.style.transform = 'translateX(0)';
+    }
+
+    if (animationCar) window.cancelAnimationFrame(animationCar.id);
+};
+
+export interface ICarsRace {
+    success: boolean;
+    id: number;
+    time: number;
+}
+
+export interface ICarsRes {
+    time: number;
+    id?: number | undefined;
+    name?: string | undefined;
+    color?: string | undefined;
+}
+
+const raceCars: (promises: Promise<ICarsRace>[], ids: number[]) => Promise<ICarsRes> = async (promises, ids) => {
+    const { success, id, time } = await Promise.race(promises);
+    const { items: cars } = await getCars(str.carsPage);
+
+    if (!success) {
+        const failedIndex = ids.findIndex((i: number) => i === id);
+        const restPromises = [...promises.slice(0, failedIndex), ...promises.slice(failedIndex + 1, promises.length)];
+        const restIds = [...ids.slice(0, failedIndex), ...ids.slice(failedIndex + 1, ids.length)];
+        return raceCars(restPromises, restIds);
+    }
+
+    return { ...cars.find((car) => car.id === id), time: +(time / 1000).toFixed(2) };
+};
+
+export const race: (action: (args: number) => Promise<ICarsRace>) => Promise<ICarsRes> = async (
+    action: (
+        args: number
+    ) => Promise<{
+        success: boolean;
+        id: number;
+        time: number;
+    }>
+) => {
+    const { items: cars } = await getCars(str.carsPage);
+    const promises = cars.map(({ id }) => action(id));
+
+    const winner = await raceCars(
+        promises,
+        cars.map((car) => car.id)
+    );
+    return winner;
 };
